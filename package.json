@@ -1,0 +1,19 @@
+{
+  "name": "fastidious",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:johnste/fastidious.git",
+  "author": "John Sterling <john.sterling@unomaly.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.7.1",
+    "prettier": "^1.17.0",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  }
+}
