@@ -118,26 +118,6 @@ describe("test", () => {
       expect(f({ a: [] }, schema)).toHaveLength(1);
       expect(f({ a: value.slice() }, schema)).toHaveLength(1);
     });
-
-    test("value string literal", () => {
-      const schema = {
-        a: "value"
-      };
-
-      expect(f({ a: "value" }, schema)).toHaveLength(0);
-      expect(f({ a: undefined }, schema)).toHaveLength(0);
-      expect(f({ a: "not value" }, schema)).toHaveLength(1);
-    });
-
-    test("value number literal", () => {
-      const schema = {
-        a: 5
-      };
-
-      expect(f({ a: 5 }, schema)).toHaveLength(0);
-      expect(f({ a: undefined }, schema)).toHaveLength(0);
-      expect(f({ a: 6 }, schema)).toHaveLength(1);
-    });
   });
 
   test("OneOf", () => {

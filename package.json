@@ -6,12 +6,15 @@
   "author": "John Sterling <john.sterling@unomaly.com>",
   "license": "MIT",
   "scripts": {
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "jest": "^24.7.1",
     "prettier": "^1.17.0",
+    "rollup": "^1.10.1",
+    "rollup-plugin-typescript2": "^0.21.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"

@@ -1,2 +1,1 @@
-export { fastidious } from "./fastidious";
-export { validate } from "./validators";
+export { fastidious, validate } from "./fastidious";
