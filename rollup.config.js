@@ -4,7 +4,7 @@ export default {
   input: "./src/index.ts",
   plugins: [typescript(/*{ plugin options }*/)],
   output: {
-    file: "dist/bundle.js",
+    file: "dist/index.js",
     format: "umd",
     name: "fastidious"
   }

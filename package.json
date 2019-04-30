@@ -2,17 +2,20 @@
   "name": "fastidious",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:johnste/fastidious.git",
   "author": "John Sterling <john.sterling@unomaly.com>",
   "license": "MIT",
   "scripts": {
     "test": "yarn jest",
+    "prebuild": "rimraf ./dist",
     "build": "rollup -c"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "jest": "^24.7.1",
     "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
     "rollup": "^1.10.1",
     "rollup-plugin-typescript2": "^0.21.0",
     "ts-jest": "^24.0.2",
