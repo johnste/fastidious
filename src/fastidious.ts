@@ -2,7 +2,7 @@ import { getKeys } from "./utils";
 import { IObject, ISchema, Validator, ICheckType } from "./types";
 import { createValidator } from "./createValidator";
 
-export function fastidious(object: IObject, schema: ISchema, prefix = "root.") {
+export function getErrors(object: IObject, schema: ISchema, prefix = "root.") {
   const schemaKeys = getKeys(schema);
   const errors: string[] = [];
 
@@ -49,7 +49,7 @@ export const validate = {
         return false;
       }
 
-      return fastidious(value, schema, key + ".");
+      return getErrors(value, schema, key + ".");
     }),
 
   arrayOf: (validator: Validator) =>

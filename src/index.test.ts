@@ -1,4 +1,4 @@
-import { validate as v, fastidious as f } from "./index";
+import { validate as v, getErrors as f } from "./index";
 
 describe("test", () => {
   test("empty schema", () => {

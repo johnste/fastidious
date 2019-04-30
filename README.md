@@ -5,17 +5,17 @@ Very small Javascript library to validate objects, similar to [prop-types](https
 ## usage
 
 ```js
-import { fastidious, validate } from "./fastidious.js";
+import { getErrors, validate } from "./fastidious.js";
 
-fastidious({ value: true }, { value: validate.boolean }); // []
+getErrors({ value: true }, { value: validate.boolean }); // []
 
 const schema = {
   match: validate.oneOf([validate.string, validate.function, validate.regex]).isRequired
 };
 
-fastidious({}, schema); // [ 'Error: Expected "config.match" to be oneOf: [string,function,regex]' ]
+getErrors({}, schema); // [ 'Error: Expected "config.match" to be oneOf: [string,function,regex]' ]
 
-fastidious({ match: "test" }, schema); // []
+getErrors({ match: "test" }, schema); // []
 ```
 
 ## Validator API

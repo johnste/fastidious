@@ -1,1 +1,1 @@
-export { fastidious, validate } from "./fastidious";
+export { getErrors, validate } from "./fastidious";
