@@ -32,7 +32,7 @@ validate.arrayOf(validator)
 validate.oneOf([validators]))
 ```
 
-## Schema example
+## Advanced schema example
 
 Used in [Finicky](https://github.com/johnste/finicky) to validate config file
 
@@ -51,7 +51,12 @@ const schema = {
   ),
   handlers: validate.arrayOf(
     validate.shape({
-      match: validate.oneOf([validate.string, validate.function, validate.regex]).isRequired,
+      match: validate.oneOf([
+        validate.string,
+        validate.function,
+        validate.regex,
+        validate.arrayOf(validate.oneOf([validate.string, validate.function, validate.regex]))
+      ]).isRequired,
       browser: validate.oneOf([
         validate.string,
         validate.shape({
@@ -63,3 +68,7 @@ const schema = {
   )
 };
 ```
+
+## Credits
+
+Icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [www.flaticon.com](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)

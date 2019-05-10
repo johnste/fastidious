@@ -3,15 +3,22 @@ export interface IObject {
 }
 
 export interface ISchema {
-  [index: string]: Validator | number | string;
+  [index: string]: IValidator | number | string;
 }
 
-export type Validator = (value: any, key: string) => string | undefined;
-
-export interface ICheckType {
+export interface IValidator {
   (value: any, key: string): string | undefined;
-  isRequired: Validator;
-  typeName: string;
+  typeName: NameType;
 }
+
+export type ICheckType = IValidator & {
+  isRequired: IValidator;
+};
 
 export type TypeCallback = (value: any, key: string) => string[] | boolean;
+
+interface IStructuredName {
+  [index: string]: string | IStructuredName;
+}
+
+export type NameType = string | IStructuredName;

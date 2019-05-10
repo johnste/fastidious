@@ -1,6 +1,6 @@
 import { getKeys } from "./utils";
-import { IObject, ISchema, Validator, ICheckType } from "./types";
-import { createValidator } from "./createValidator";
+import { IObject, ISchema, IValidator, ICheckType, NameType } from "./types";
+import { createValidator, getTypeName } from "./createValidator";
 
 export function getErrors(object: IObject, schema: ISchema, prefix = "root.") {
   const schemaKeys = getKeys(schema);
@@ -43,16 +43,18 @@ export const validate = {
     createValidator(expectedValue, value => {
       return value === expectedValue;
     }),
-  shape: (schema: ISchema) =>
-    createValidator("shape", (value, key) => {
+  shape: (schema: ISchema) => {
+    const names: any = getNameType(schema);
+
+    return createValidator(names, (value, key) => {
       if (typeof value !== "object") {
         return false;
       }
-
       return getErrors(value, schema, key + ".");
-    }),
+    });
+  },
 
-  arrayOf: (validator: Validator) =>
+  arrayOf: (validator: IValidator) =>
     createValidator("array", (value, key) => {
       if (!Array.isArray(value)) {
         return false;
@@ -76,7 +78,7 @@ export const validate = {
       return v as ICheckType;
     });
 
-    const description = typeCheckers.map(oneOf => oneOf.typeName);
+    const description = typeCheckers.map(oneOf => getTypeName(oneOf.typeName));
 
     return createValidator(`oneOf: [${description}]`, (value, key: string) => {
       const errors = typeCheckers.every(
@@ -87,3 +89,18 @@ export const validate = {
     });
   }
 };
+function getNameType(schema: ISchema): NameType {
+  const names: NameType = {};
+  const schemaKeys = getKeys(schema);
+
+  schemaKeys.forEach(key => {
+    const property = schema[key];
+    if (typeof property === "number" || typeof property === "string") {
+      names[key] = typeof property;
+    } else {
+      names[key] = property.typeName;
+    }
+  });
+
+  return names;
+}

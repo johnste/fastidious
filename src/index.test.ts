@@ -172,3 +172,57 @@ describe("test", () => {
     expect(f({ a: true }, schema)).toHaveLength(1);
   });
 });
+
+describe("Complex", () => {
+  test("valid", () => {
+    const schema = {
+      app: v.oneOf([
+        v.string,
+        v.shape({
+          name: v.string.isRequired,
+          appType: v.oneOf(["appName", "bundleId"]),
+          openInBackground: v.boolean
+        })
+      ]).isRequired
+    };
+
+    expect(f({ app: "string" }, schema)).toHaveLength(0);
+    expect(
+      f(
+        {
+          app: {
+            name: "string",
+            appType: "appName"
+          }
+        },
+        schema
+      )
+    ).toHaveLength(0);
+  });
+
+  test("invalid output", () => {
+    const schema = {
+      lapp: v.shape({ korv: v.boolean.isRequired }).isRequired,
+      app: v.oneOf([
+        v.string,
+        v.shape({
+          name: v.string.isRequired,
+          appType: v.oneOf(["appName", "bundleId"]),
+          openInBackground: v.boolean,
+          anotherShape: v.shape({
+            boool: v.boolean
+          })
+        })
+      ]).isRequired
+    };
+
+    expect(
+      f(
+        {
+          app: /error/
+        },
+        schema
+      )
+    ).toMatchSnapshot();
+  });
+});

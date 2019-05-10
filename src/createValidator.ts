@@ -1,7 +1,14 @@
 import { isDefined, formatValue } from "./utils";
-import { TypeCallback, ICheckType } from "./types";
+import { TypeCallback, ICheckType, NameType } from "./types";
 
-export function createValidator(typeName: string, typeCallback: TypeCallback): ICheckType {
+export function getTypeName(typeName: NameType) {
+  if (typeof typeName === "string") {
+    return typeName;
+  }
+  return JSON.stringify(typeName);
+}
+
+export function createValidator(typeName: NameType, typeCallback: TypeCallback): ICheckType {
   function isOptional(value: any, key: string) {
     if (!isDefined(value)) {
       return undefined;
@@ -17,10 +24,12 @@ export function createValidator(typeName: string, typeCallback: TypeCallback): I
 
   function isRequired(value: any, key: string) {
     if (!isDefined(value)) {
-      return `Expected "${key}" to be ${typeName}`;
+      return `Expected "${key}" to be ${getTypeName(typeName)}`;
     }
     return isOptional(value, key);
   }
+
+  isRequired.typeName = typeName;
 
   function checkType(value: any, key: string) {
     return isOptional(value, key);

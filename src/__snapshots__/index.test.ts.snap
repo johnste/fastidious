@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Complex invalid output 1`] = `
+Array [
+  "Expected \\"root.lapp\\" to be {\\"korv\\":\\"boolean\\"}",
+  "root.app: Value not one of string,{\\"name\\":\\"string\\",\\"appType\\":\\"oneOf: [appName,bundleId]\\",\\"openInBackground\\":\\"boolean\\",\\"anotherShape\\":{\\"boool\\":\\"boolean\\"}}",
+]
+`;
