@@ -10,7 +10,7 @@ import { getErrors, validate } from "./fastidious.js";
 getErrors({ value: true }, { value: validate.boolean }); // []
 
 const schema = {
-  match: validate.oneOf([validate.string, validate.function, validate.regex]).isRequired
+  match: validate.oneOf([validate.string, validate.function(), validate.regex]).isRequired
 };
 
 getErrors({}, schema); // [ 'Error: Expected "config.match" to be oneOf: [string,function,regex]' ]
@@ -24,7 +24,7 @@ getErrors({ match: "test" }, schema); // []
 validate.boolean
 validate.string
 validate.number
-validate.function
+validate.function([argNames])
 validate.regex
 validate.value(expectedValue)
 validate.shape(schema)
@@ -45,17 +45,20 @@ const schema = {
   }),
   rewrite: validate.arrayOf(
     validate.shape({
-      match: validate.oneOf([validate.string, validate.function, validate.regex]).isRequired,
-      url: validate.oneOf([validate.string, validate.function]).isRequired
+      match: validate.oneOf([validate.string, validate.function("options"), validate.regex])
+        .isRequired,
+      url: validate.oneOf([validate.string, validate.function("options")]).isRequired
     }).isRequired
   ),
   handlers: validate.arrayOf(
     validate.shape({
       match: validate.oneOf([
         validate.string,
-        validate.function,
+        validate.function("options"),
         validate.regex,
-        validate.arrayOf(validate.oneOf([validate.string, validate.function, validate.regex]))
+        validate.arrayOf(
+          validate.oneOf([validate.string, validate.function("options"), validate.regex])
+        )
       ]).isRequired,
       browser: validate.oneOf([
         validate.string,

@@ -16,9 +16,9 @@ export function createValidator(typeName: NameType, typeCallback: TypeCallback):
 
     const result = typeCallback(value, key);
     if (typeof result === "boolean" && !result) {
-      return `Value at ${key}: ${formatValue(value)} is not ${typeName}`;
+      return `Value at ${key}: ${formatValue(value)} is not ${getTypeName(typeName)}`;
     } else if (Array.isArray(result) && result.length > 0) {
-      return result.join(", ");
+      return result.join("\n");
     }
   }
 

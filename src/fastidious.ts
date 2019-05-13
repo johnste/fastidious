@@ -1,4 +1,4 @@
-import { getKeys } from "./utils";
+import { getKeys, enumerate } from "./utils";
 import { IObject, ISchema, IValidator, ICheckType, NameType } from "./types";
 import { createValidator, getTypeName } from "./createValidator";
 
@@ -37,7 +37,17 @@ export const validate = {
   boolean: createValidator("boolean", value => typeof value === "boolean"),
   string: createValidator("string", value => typeof value === "string"),
   number: createValidator("number", value => typeof value === "number" && !Number.isNaN(value)),
-  function: createValidator("function", value => typeof value === "function"),
+  function: (argNames?: string[] | string) => {
+    if (!Array.isArray(argNames)) {
+      if (argNames) {
+        argNames = [argNames];
+      } else {
+        argNames = [];
+      }
+    }
+    const name = `function(${argNames.join(", ")})`;
+    return createValidator(name, value => typeof value === "function");
+  },
   regex: createValidator("regex", value => value instanceof RegExp),
   value: (expectedValue: any) =>
     createValidator(expectedValue, value => {
@@ -78,9 +88,9 @@ export const validate = {
       return v as ICheckType;
     });
 
-    const description = typeCheckers.map(oneOf => getTypeName(oneOf.typeName));
+    const description = enumerate(typeCheckers.map(oneOf => getTypeName(oneOf.typeName)));
 
-    return createValidator(`oneOf: [${description}]`, (value, key: string) => {
+    return createValidator(`${description}`, (value, key: string) => {
       const errors = typeCheckers.every(
         oneOfValidator => typeof oneOfValidator(value, key) === "string"
       );
@@ -89,6 +99,7 @@ export const validate = {
     });
   }
 };
+
 function getNameType(schema: ISchema): NameType {
   const names: NameType = {};
   const schemaKeys = getKeys(schema);

@@ -77,7 +77,7 @@ describe("test", () => {
 
   test("Function", () => {
     const schema = {
-      a: v.function.isRequired
+      a: v.function("test").isRequired
     };
 
     expect(f({ a() {} }, schema)).toHaveLength(0);
@@ -224,5 +224,43 @@ describe("Complex", () => {
         schema
       )
     ).toMatchSnapshot();
+  });
+
+  test("Serialize functions to readable description", () => {
+    const schema = {
+      lapp: v.boolean
+    };
+
+    expect(
+      f(
+        {
+          lapp: () => {}
+        },
+        schema
+      )
+    ).toMatchInlineSnapshot(`
+            Array [
+              "Value at root.lapp: [Function lapp] is not boolean",
+            ]
+        `);
+  });
+
+  test("Serialize expected objects to readable description", () => {
+    const schema = {
+      test: v.shape({ key: v.boolean }).isRequired
+    };
+
+    expect(
+      f(
+        {
+          test: "true"
+        },
+        schema
+      )
+    ).toMatchInlineSnapshot(`
+      Array [
+        "Value at root.test: [\\"true\\"] is not {\\"key\\":\\"boolean\\"}",
+      ]
+    `);
   });
 });

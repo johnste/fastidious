@@ -5,9 +5,19 @@ export function isDefined(value: any) {
 export function formatValue(value: any): string {
   if (value instanceof RegExp) {
     return value.toString();
+  } else if (Array.isArray(value)) {
+    return `[Array]`;
+  } else if (typeof value === "function") {
+    return `[Function${value.name ? ` ${value.name}` : ""}]`;
+  } else if (value instanceof Date) {
+    return `[Date]`;
+  } else if (value === null) {
+    return "[null]";
+  } else if (value === undefined) {
+    return "[undefined]";
   }
 
-  return JSON.stringify(value);
+  return `[${JSON.stringify(value)}]`;
 }
 
 export function getKeys(object: object) {
