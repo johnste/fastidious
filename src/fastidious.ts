@@ -7,13 +7,17 @@ export function getErrors(object: any, schema: ISchema | IValidator, prefix = "r
   if (typeof schema === "function") {
     const result = schema(object, prefix + "value");
     return result ? [result] : [];
+  } else if (typeof schema !== "object") {
+    return [
+      `Expected an schema that was an object or a function, but received ${typeof object} (path: ${prefix})`
+    ];
   }
 
   const schemaKeys = getKeys(schema);
   const errors: string[] = [];
 
   if (typeof object !== "object") {
-    errors.push(`Expected an object to validate, but recieved ${typeof object} (path: ${prefix})`);
+    errors.push(`Expected an object to validate, but received ${typeof object} (path: ${prefix})`);
   } else {
     // Validate each property in schema
     schemaKeys.forEach(key => {
@@ -24,7 +28,7 @@ export function getErrors(object: any, schema: ISchema | IValidator, prefix = "r
       } else if (["string", "number"].includes(typeof propChecker)) {
         result = validate.value(propChecker)(object[key], prefix + key);
       } else {
-        result = `Expected a validator at key ${prefix + key}`;
+        result = `Expected a validator at path ${prefix + key}`;
       }
 
       if (typeof result === "string") {
@@ -35,7 +39,7 @@ export function getErrors(object: any, schema: ISchema | IValidator, prefix = "r
     // Check for extraneous properties in object
     getKeys(object).forEach(key => {
       if (!schemaKeys.includes(key)) {
-        errors.push("extraneous key " + prefix + key);
+        errors.push("unknown key ${key} at ${prefix + key}");
       }
     });
   }

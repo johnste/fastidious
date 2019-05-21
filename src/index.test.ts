@@ -282,4 +282,13 @@ describe("Single values", () => {
     expect(f(/regex/, v.boolean)).toHaveLength(1);
     expect(f(/regex/, v.number)).toHaveLength(1);
   });
+
+  test("invalid schemas", () => {
+    // @ts-ignore
+    expect(f(undefined, "test")).toHaveLength(1);
+    // @ts-ignore
+    expect(f(undefined, undefined)).toHaveLength(1);
+    // @ts-ignore
+    expect(f({ test: true }, false)).toHaveLength(1);
+  });
 });
