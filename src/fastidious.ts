@@ -1,8 +1,14 @@
 import { getKeys, enumerate } from "./utils";
-import { IObject, ISchema, IValidator, ICheckType, NameType } from "./types";
+import { ISchema, IValidator, ICheckType, NameType } from "./types";
 import { createValidator, getTypeName } from "./createValidator";
 
-export function getErrors(object: IObject, schema: ISchema, prefix = "root.") {
+export function getErrors(object: any, schema: ISchema | IValidator, prefix = "root.") {
+  // If schema is a function we're testing a single validator
+  if (typeof schema === "function") {
+    const result = schema(object, "value");
+    return result ? [result] : [];
+  }
+
   const schemaKeys = getKeys(schema);
   const errors: string[] = [];
 

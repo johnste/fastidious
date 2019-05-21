@@ -1,7 +1,3 @@
-export interface IObject {
-  [index: string]: IObject | any;
-}
-
 export interface ISchema {
   [index: string]: IValidator | number | string;
 }

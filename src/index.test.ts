@@ -264,3 +264,22 @@ describe("Complex", () => {
     `);
   });
 });
+
+describe("Single values", () => {
+  test("single valid values", () => {
+    expect(f(true, v.boolean)).toHaveLength(0);
+    expect(f(false, v.boolean)).toHaveLength(0);
+    expect(f(/regex/, v.regex)).toHaveLength(0);
+    expect(f(4, v.number)).toHaveLength(0);
+    expect(f(() => {}, v.function("arg"))).toHaveLength(0);
+    expect(f(4, v.value(4))).toHaveLength(0);
+    expect(f([4], v.arrayOf(v.number))).toHaveLength(0);
+  });
+
+  test("single invalid values", () => {
+    expect(f("test", v.boolean)).toHaveLength(1);
+    expect(f({}, v.boolean)).toHaveLength(1);
+    expect(f(/regex/, v.boolean)).toHaveLength(1);
+    expect(f(/regex/, v.number)).toHaveLength(1);
+  });
+});
