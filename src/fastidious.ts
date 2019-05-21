@@ -5,36 +5,40 @@ import { createValidator, getTypeName } from "./createValidator";
 export function getErrors(object: any, schema: ISchema | IValidator, prefix = "root.") {
   // If schema is a function we're testing a single validator
   if (typeof schema === "function") {
-    const result = schema(object, "value");
+    const result = schema(object, prefix + "value");
     return result ? [result] : [];
   }
 
   const schemaKeys = getKeys(schema);
   const errors: string[] = [];
 
-  // Validate each property in schema
-  schemaKeys.forEach(key => {
-    const propChecker = schema[key];
-    let result: string | undefined;
-    if (typeof propChecker === "function") {
-      result = propChecker(object[key], prefix + key);
-    } else if (["string", "number"].includes(typeof propChecker)) {
-      result = validate.value(propChecker)(object[key], prefix + key);
-    } else {
-      result = `Expected a validator at key ${prefix + key}`;
-    }
+  if (typeof object !== "object") {
+    errors.push(`Expected an object to validate, but recieved ${typeof object} (path: ${prefix})`);
+  } else {
+    // Validate each property in schema
+    schemaKeys.forEach(key => {
+      const propChecker = schema[key];
+      let result: string | undefined;
+      if (typeof propChecker === "function") {
+        result = propChecker(object[key], prefix + key);
+      } else if (["string", "number"].includes(typeof propChecker)) {
+        result = validate.value(propChecker)(object[key], prefix + key);
+      } else {
+        result = `Expected a validator at key ${prefix + key}`;
+      }
 
-    if (typeof result === "string") {
-      errors.push(result);
-    }
-  });
+      if (typeof result === "string") {
+        errors.push(result);
+      }
+    });
 
-  // Check for extraneous properties in object
-  getKeys(object).forEach(key => {
-    if (!schemaKeys.includes(key)) {
-      errors.push("extraneous key " + prefix + key);
-    }
-  });
+    // Check for extraneous properties in object
+    getKeys(object).forEach(key => {
+      if (!schemaKeys.includes(key)) {
+        errors.push("extraneous key " + prefix + key);
+      }
+    });
+  }
 
   return errors;
 }
