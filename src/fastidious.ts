@@ -39,7 +39,7 @@ export function getErrors(object: any, schema: ISchema | IValidator, prefix = "r
     // Check for extraneous properties in object
     getKeys(object).forEach(key => {
       if (!schemaKeys.includes(key)) {
-        errors.push("unknown key ${key} at ${prefix + key}");
+        errors.push(`unknown key ${key} at ${prefix + key}`);
       }
     });
   }
