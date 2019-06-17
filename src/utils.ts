@@ -1,5 +1,5 @@
 export function isDefined(value: any) {
-  return typeof value !== "undefined" && value !== null;
+  return typeof value !== "undefined";
 }
 
 export function formatValue(value: any): string {

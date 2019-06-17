@@ -118,6 +118,14 @@ describe("test", () => {
       expect(f({ a: [] }, schema)).toHaveLength(1);
       expect(f({ a: value.slice() }, schema)).toHaveLength(1);
     });
+
+    test("null value", () => {
+      const schema = {
+        a: v.value(null).isRequired
+      };
+
+      expect(f({ a: null }, schema)).toHaveLength(0);
+    });
   });
 
   test("OneOf", () => {
