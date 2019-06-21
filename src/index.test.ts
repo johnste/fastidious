@@ -140,8 +140,19 @@ describe("test", () => {
     expect(f({ a() {} }, schema)).toHaveLength(1);
   });
 
-  test.only("OneOf null", () => {
-    const schema = { value: v.oneOf([v.shape({ test: v.string }), v.value(null)]).isRequired };
+  test("OneOf null", () => {
+    const schema = {
+      value: v.oneOf([
+        v.string,
+        v.shape({
+          name: v.string.isRequired,
+          appType: v.oneOf(["appName", "bundleId"]),
+          openInBackground: v.boolean
+        }),
+        v.function("options"),
+        v.value(null)
+      ]).isRequired
+    };
     expect(f({ value: null }, schema)).toHaveLength(0);
   });
 

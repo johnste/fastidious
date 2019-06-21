@@ -16,7 +16,7 @@ export function getErrors(object: any, schema: ISchema | IValidator, prefix = "r
   const schemaKeys = getKeys(schema);
   const errors: string[] = [];
 
-  if (typeof object !== "object") {
+  if (typeof object !== "object" || object === null) {
     errors.push(`Expected an object to validate, but received ${typeof object} (path: ${prefix})`);
   } else {
     // Validate each property in schema
