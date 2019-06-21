@@ -140,6 +140,11 @@ describe("test", () => {
     expect(f({ a() {} }, schema)).toHaveLength(1);
   });
 
+  test.only("OneOf null", () => {
+    const schema = { value: v.oneOf([v.shape({ test: v.string }), v.value(null)]).isRequired };
+    expect(f({ value: null }, schema)).toHaveLength(0);
+  });
+
   describe("ArrayOf", () => {
     test("optional", () => {
       const schema = {

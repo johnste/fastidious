@@ -71,7 +71,7 @@ export const validate = {
     const names: any = getNameType(schema);
 
     return createValidator(names, (value, key) => {
-      if (typeof value !== "object") {
+      if (typeof value !== "object" || value === null) {
         return false;
       }
       return getErrors(value, schema, key + ".");
