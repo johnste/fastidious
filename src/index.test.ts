@@ -263,10 +263,10 @@ describe("Complex", () => {
         schema
       )
     ).toMatchInlineSnapshot(`
-            Array [
-              "Value at root.lapp: [Function lapp] is not boolean",
-            ]
-        `);
+                  Array [
+                    "Value at root.lapp: [Function lapp] is not boolean",
+                  ]
+            `);
   });
 
   test("Serialize expected objects to readable description", () => {
@@ -283,7 +283,9 @@ describe("Complex", () => {
       )
     ).toMatchInlineSnapshot(`
       Array [
-        "Value at root.test: [\\"true\\"] is not {\\"key\\":\\"boolean\\"}",
+        "Value at root.test: [\\"true\\"] is not {
+        \\"key\\": \\"boolean\\"
+      }",
       ]
     `);
   });

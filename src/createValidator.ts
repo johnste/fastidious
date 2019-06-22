@@ -5,7 +5,7 @@ export function getTypeName(typeName: NameType) {
   if (typeof typeName === "string") {
     return typeName;
   }
-  return JSON.stringify(typeName);
+  return JSON.stringify(typeName, null, 2);
 }
 
 export function createValidator(typeName: NameType, typeCallback: TypeCallback): ICheckType {

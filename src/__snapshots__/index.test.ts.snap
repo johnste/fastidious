@@ -2,7 +2,16 @@
 
 exports[`Complex invalid output 1`] = `
 Array [
-  "Expected \\"root.lapp\\" to be {\\"korv\\":\\"boolean\\"}",
-  "root.app: Value not one of string or {\\"name\\":\\"string\\",\\"appType\\":\\"appName or bundleId\\",\\"openInBackground\\":\\"boolean\\",\\"anotherShape\\":{\\"boool\\":\\"boolean\\"}}",
+  "Expected \\"root.lapp\\" to be {
+  \\"korv\\": \\"boolean\\"
+}",
+  "root.app: Value not one of string or {
+  \\"name\\": \\"string\\",
+  \\"appType\\": \\"appName or bundleId\\",
+  \\"openInBackground\\": \\"boolean\\",
+  \\"anotherShape\\": {
+    \\"boool\\": \\"boolean\\"
+  }
+}",
 ]
 `;

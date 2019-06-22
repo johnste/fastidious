@@ -17,7 +17,7 @@ export function formatValue(value: any): string {
     return "[undefined]";
   }
 
-  return `[${JSON.stringify(value)}]`;
+  return `[${JSON.stringify(value, null, 2)}]`;
 }
 
 export function getKeys(object: object) {
